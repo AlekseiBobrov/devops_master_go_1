@@ -14,7 +14,12 @@ requestLabel:
 	for i < 4 {
 		i++
 		response, err := http.Get(" http://srv.msk01.gigacorp.local/_stats")
+		if err != nil {
+			continue
+		}
+
 		body, err := io.ReadAll(response.Body)
+		response.Body.Close()
 		if err != nil || response.StatusCode != 200 {
 			continue
 		}
@@ -25,11 +30,11 @@ requestLabel:
 		}
 		numbers := make([]int, len(values))
 		for n, val := range values {
-			parsed_number, err := strconv.Atoi(val)
+			parsedNumber, err := strconv.Atoi(val)
 			if err != nil {
 				continue requestLabel
 			}
-			numbers[n] = parsed_number
+			numbers[n] = parsedNumber
 		}
 
 		if numbers[0] > 30 {
@@ -37,7 +42,7 @@ requestLabel:
 		}
 
 		if usage := float64(numbers[2]) / float64(numbers[1]); usage > float64(0.8) {
-			fmt.Printf("Memory usage too high: %d%\n", usage*100)
+			fmt.Printf("Memory usage too high: %f%\n", usage*100)
 		}
 
 		if float64(numbers[4])/float64(numbers[3]) > float64(0.9) {
