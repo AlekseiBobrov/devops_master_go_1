@@ -9,29 +9,36 @@ import (
 )
 
 func main() {
-	i := 0
+	errors := 0
 requestLabel:
-	for i < 4 {
-		i++
+	for {
+		if errors >= 3 {
+			fmt.Println("Unable to fetch server statistic")
+		}
+
 		response, err := http.Get("http://srv.msk01.gigacorp.local/_stats")
 		if err != nil {
+			errors++
 			continue
 		}
 
 		body, err := io.ReadAll(response.Body)
 		response.Body.Close()
 		if err != nil || response.StatusCode != 200 {
+			errors++
 			continue
 		}
 
 		values := strings.Split(string(body), ",")
 		if len(values) != 7 {
+			errors++
 			continue
 		}
 		numbers := make([]int, len(values))
 		for n, val := range values {
 			parsedNumber, err := strconv.Atoi(val)
 			if err != nil {
+				errors++
 				continue requestLabel
 			}
 			numbers[n] = parsedNumber
@@ -46,15 +53,11 @@ requestLabel:
 		}
 
 		if (numbers[4]/numbers[3])*100 > 90 {
-			fmt.Printf("Free disk space is too low: %d Mb left\n", (numbers[3]-numbers[4])/1000/1000)
+			fmt.Printf("Free disk space is too low: %d Mb left\n", (numbers[3]-numbers[4])/1024/1024)
 		}
 
 		if (numbers[6]/numbers[5])*100 > 90 {
-			fmt.Printf("Network bandwidth usage high: %d Mbit/s available\n", (numbers[5]-numbers[6])/1000/1000)
+			fmt.Printf("Network bandwidth usage high: %d Mbit/s available\n", (numbers[5]-numbers[6])/1024/1024)
 		}
-		break
-	}
-	if i == 4 {
-		fmt.Println("Unable to fetch server statistic")
 	}
 }
