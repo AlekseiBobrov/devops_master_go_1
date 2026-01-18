@@ -42,7 +42,7 @@ requestLabel:
 		}
 
 		if usage := float64(numbers[2]) / float64(numbers[1]); usage > float64(0.8) {
-			fmt.Printf("Memory usage too high: %f%\n", usage*100)
+			fmt.Printf("Memory usage too high: %f%%\n", usage*100)
 		}
 
 		if float64(numbers[4])/float64(numbers[3]) > float64(0.9) {
