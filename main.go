@@ -61,5 +61,10 @@ requestLabel:
 		if (numbers[6]/numbers[5])*100 > 90 {
 			fmt.Printf("Network bandwidth usage high: %d Mbit/s available\n", (numbers[5]-numbers[6])/1024/1024)
 		}
+
+		fmt.Println(numbers)
+		fmt.Println("memory:", numbers[2], numbers[1], (numbers[2]/numbers[1])*100, (numbers[2]/numbers[1])*100 > 80)
+		fmt.Println("disk:", numbers[4], numbers[3], (numbers[4]/numbers[3])*100, (numbers[4]/numbers[3])*100 > 90)
+		fmt.Println("network:", numbers[6], numbers[5], (numbers[6]/numbers[5])*100, (numbers[6]/numbers[5])*100 > 90)
 	}
 }
