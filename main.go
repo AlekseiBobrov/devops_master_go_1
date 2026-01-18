@@ -13,7 +13,7 @@ func main() {
 requestLabel:
 	for i < 4 {
 		i++
-		response, err := http.Get(" http://srv.msk01.gigacorp.local/_stats")
+		response, err := http.Get("http://srv.msk01.gigacorp.local/_stats")
 		if err != nil {
 			continue
 		}
