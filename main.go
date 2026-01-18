@@ -52,6 +52,7 @@ requestLabel:
 		if float64(numbers[6])/float64(numbers[5]) > float64(0.9) {
 			fmt.Printf("Network bandwidth usage high: %d Mbit/s available\n", (numbers[3]-numbers[4])/1024/1024)
 		}
+		break
 	}
 	if i == 4 {
 		fmt.Println("Unable to fetch server statistic")
