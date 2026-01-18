@@ -6,12 +6,14 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func main() {
 	errors := 0
 requestLabel:
 	for {
+		time.Sleep(time.Second * 10)
 		if errors >= 3 {
 			fmt.Println("Unable to fetch server statistic")
 		}
