@@ -57,7 +57,7 @@ requestLabel:
 		}
 
 		if (float64(numbers[6])/float64(numbers[5]))*100 > 90 {
-			fmt.Printf("Network bandwidth usage high: %d Mbit/s available\n", (numbers[5]-numbers[6])/1024/1024)
+			fmt.Printf("Network bandwidth usage high: %d Mbit/s available\n", (numbers[5]-numbers[6])/1000/1000)
 		}
 	}
 }
