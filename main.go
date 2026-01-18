@@ -6,14 +6,12 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
-	"time"
 )
 
 func main() {
 	errors := 0
 requestLabel:
 	for {
-		time.Sleep(time.Second * 10)
 		if errors >= 3 {
 			fmt.Println("Unable to fetch server statistic")
 		}
@@ -50,21 +48,16 @@ requestLabel:
 			fmt.Printf("Load Average is too high: %d\n", numbers[0])
 		}
 
-		if usage := (numbers[2] / numbers[1]) * 100; usage > 80 {
-			fmt.Printf("Memory usage too high: %d%%\n", usage)
+		if usage := float64(numbers[2]) / float64(numbers[1]) * 100; usage > 80 {
+			fmt.Printf("Memory usage too high: %d%%\n", int32(usage))
 		}
 
-		if (numbers[4]/numbers[3])*100 > 90 {
+		if (float64(numbers[4])/float64(numbers[3]))*100 > 90 {
 			fmt.Printf("Free disk space is too low: %d Mb left\n", (numbers[3]-numbers[4])/1024/1024)
 		}
 
-		if (numbers[6]/numbers[5])*100 > 90 {
+		if (float64(numbers[6])/float64(numbers[5]))*100 > 90 {
 			fmt.Printf("Network bandwidth usage high: %d Mbit/s available\n", (numbers[5]-numbers[6])/1024/1024)
 		}
-
-		fmt.Println(numbers)
-		fmt.Println("memory:", numbers[2], numbers[1], (numbers[2]/numbers[1])*100, (numbers[2]/numbers[1])*100 > 80)
-		fmt.Println("disk:", numbers[4], numbers[3], (numbers[4]/numbers[3])*100, (numbers[4]/numbers[3])*100 > 90)
-		fmt.Println("network:", numbers[6], numbers[5], (numbers[6]/numbers[5])*100, (numbers[6]/numbers[5])*100 > 90)
 	}
 }
