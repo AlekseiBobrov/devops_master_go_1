@@ -43,7 +43,9 @@ requestLabel:
 			}
 			numbers[n] = parsedNumber
 		}
-
+		fmt.Println(string(body))
+		fmt.Println(values)
+		fmt.Println(numbers)
 		if numbers[0] > 30 {
 			fmt.Printf("Load Average is too high: %d\n", numbers[0])
 		}
